@@ -1,0 +1,55 @@
+﻿@model DoanRapphim.Areas.Admin.Models.LichChieuModel
+
+@{
+    ViewData["Title"] = "Quản lý lịch chiếu";
+}
+
+<h1>Index</h1>
+
+<div class="row">
+    @await Html.PartialAsync("Create")
+    <div class="col-md-8">
+        <form asp-action="Index" class="row" method="get">
+            Tìm kiếm lịch chiếu theo phòng
+            <select name="phong" class="form-control col-4" asp-items="ViewBag.IdPhong">
+                <option value="-1" selected>All</option>
+            </select>
+            <input type="submit" value="Seach" class="btn btn-primary" />
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Ngày chiếu
+                    </th>
+                    <th>
+                        Phòng
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (LichChieuModel item in ViewBag.List)
+                {
+                    <tr id="@item.Id">
+                        <td>
+                            @item.NgayChieu.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.Phong.TenPhong
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-route-id="@item.Id" asp-action="Index">Edit</a>|
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

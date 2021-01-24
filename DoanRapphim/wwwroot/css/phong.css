@@ -1,0 +1,68 @@
+﻿
+.seat ,.seatgc {
+    background: rgb(243, 239, 239);
+    height: 20px;
+    width: 40px;
+    text-align: center;
+    margin: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: black;
+}
+
+    .seat:nth-of-type(4) {
+        margin-right: 40px;
+    }
+
+    .seat.selected {
+        background: rgb(11, 177, 53);
+    }
+
+    .seat.occupied {
+        background: rgb(238, 8, 8);
+    }
+
+    .seat:not(.occupied):hover {
+        cursor: pointer;
+        transform: scale(1.9);
+    }
+
+.ghichu .seat:not(.occupied):hover {
+    cursor: default;
+    transform: scale(1);
+}
+
+.ghichu {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: white;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+    .ghichu li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 25px;
+        padding: 2px;
+    }
+
+        .ghichu li small {
+            margin-left: 5px;
+        }
+
+.screen {
+    background: white;
+    height: 100px;
+    width: 100%;
+    margin: 10px 0;
+    transform: rotateX(-45deg);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.9);
+    color: rgb(255, 0, 51);
+}
+.seat:nth-last-of-type(4) {
+    margin-left: 10px;
+}

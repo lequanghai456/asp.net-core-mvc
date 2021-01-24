@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    @await Html.PartialAsync("_HeadPartial")
+    @RenderSection("CSS", required: false)
+    <style>
+
+        form #password {
+            background-color: #f6f6f6;
+            border: none;
+            color: #0d0d0d;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 5px;
+            width: 85%;
+            border: 2px solid #f6f6f6;
+            -webkit-transition: all 0.5s ease-in-out;
+            -moz-transition: all 0.5s ease-in-out;
+            -ms-transition: all 0.5s ease-in-out;
+            -o-transition: all 0.5s ease-in-out;
+            transition: all 0.5s ease-in-out;
+            -webkit-border-radius: 5px 5px 5px 5px;
+            border-radius: 5px 5px 5px 5px;
+            border: 1px solid gray;
+        }
+        #chuadat {
+            background: rgb(243, 239, 239);
+            height: 20px;
+            width: 40px;
+            text-align: center;
+            margin: 10px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            color: black;
+        }
+        #datroi {
+            background: rgb(11, 177, 53);
+            height: 20px;
+            width: 40px;
+            text-align: center;
+            margin: 10px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bgded overlay light" id="layout-bg">
+        <div class="wrapper row1">
+            @await Html.PartialAsync("_HeaderPartial")
+            @await Html.PartialAsync("_SlidePartial")
+            @RenderBody()
+        </div>
+    </div>
+    @await Html.PartialAsync("_FooterPartial")
+    @await Html.PartialAsync("_LibJSPartial")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

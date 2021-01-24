@@ -1,0 +1,145 @@
+﻿@model DoanRapphim.Areas.Admin.Models.PhongModel
+<main class="hoc container clear">
+    <div class="row">
+        <div class="col-12">
+            <ul class="ghichu">
+                <li>
+                    <div id="chuadat">
+                    </div>
+                    <small>Chưa đặt</small>
+                </li>
+                <li>
+                    <div id="datroi">
+                    </div>
+                    <small>Đang được chọn</small>
+                </li>
+                <li>
+                    <div class="seat occupied">
+                    </div>
+                    <small>Đã được chọn</small>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="screen">
+        <div class="insidescreen">
+            <center> <h1 id="tenphim" class="screen">@ViewData["Ten"]</h1></center>
+        </div>
+    </div>
+
+    @for (int j = 0; j < Model.SoLuongHang; j++)
+    {
+        <center>
+            <div class="row">
+                <div class="col-12">
+                    @for (int i = 0; i < Model.SoLuongCot; i++)
+                    {
+                        String tenghe = char.ConvertFromUtf32(65 + j) + i;
+                        <div style="display:inline-block" class="seat" id="@tenghe">@tenghe</div>
+                    }
+                </div>
+            </div>
+        </center>
+    }
+
+
+    <div class="bd-example">
+        <center>
+            <button type="button" class="btn btn-primary" onclick="XacNhan()">
+                Xác nhận
+            </button>
+        </center>
+    </div>
+    <div id="showtt">
+        <input id="TenGhe" type="hidden" name="TenGhe" />
+        <div id="loaisc"></div>
+        <div id="NgayChieu"></div>
+        <div id="GioChieu"></div>
+        <div id="sltenghe"></div>
+        <div id="TenGhe"></div>
+        <input id="idsc" type="hidden" value="@ViewData["Id"]" />
+        <center>
+            <button type="button" id="thanhtoan" class="btn btn-primary">
+                Thanh Toán
+            </button>
+        </center>
+    </div>
+</main>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+        var idsc = @ViewData["Id"];
+            setInterval(function(){
+                $.ajax({
+                    method: "GET",
+                    url: "../../../Api/SuatChieuAPI/Dsduocchon/" + idsc,
+                })
+                    .done(function (Data) {
+                        var dulieu = JSON.parse(Data);
+                        $.each(dulieu, function (value, item) {
+                            $("#" + item.tenghe).attr("class", "seat occupied");
+                        });
+                    });
+            },1000);
+
+        });
+
+            var idsc = @ViewData["Id"];
+        function XacNhan() {
+
+            var slghe = "Số lượng ghế đã đặt: ";
+            var tenghe = "";
+            var Dsghe = document.getElementsByClassName("selected");
+            if (Dsghe.length > 0) {
+                for ($i = 0; $i < Dsghe.length - 1; $i++) {
+                    tenghe += Dsghe[$i].innerText + ",";
+                }
+                tenghe += Dsghe[Dsghe.length - 1].innerText;
+
+                $.ajax({
+                    method: "GET",
+                    url: "../../../Api/SuatChieuAPI/RapChieu/" + idsc,
+                })
+                    .done(function (Data) {
+                        var dulieu = JSON.parse(Data);
+                        console.log(dulieu);
+                        $("#loaisc").html(" Loại Suất Chiếu: " + dulieu[0].Tensc);
+                        $("#NgayChieu").html(" Ngày Chiếu: " + dulieu[0].NgayChieu);
+                        $("#GioChieu").html(" Giờ Chiếu: " + dulieu[0].GioChieu);
+                        $("div#TenGhe").text("Ghế: " + tenghe);
+                        $("input#TenGhe").val(tenghe);
+                    });
+            }
+            else {
+
+            }
+            }
+        $('#thanhtoan').click(function () {
+
+            if (!$("input#TenGhe").val().length)
+                alert("Ban chua chon ghe");
+            else
+                $.ajax({
+                    method: "POST",
+                    url: "../../../API/VeAPI/PostVe",
+                    contentType: "application/json; charset=UTF-8",
+                    data: JSON.stringify({ "id": idsc, "dsghe": $("input#TenGhe").val()})
+                })
+                    .done(function (res) {
+                        if (JSON.parse(res).result != "False") {
+                            alert(JSON.parse(res).result);
+                            $("#loaisc").html("");
+                            $("#NgayChieu").html("");
+                            $("#GioChieu").html("");
+                            $("div#TenGhe").text("");
+                            $("input#TenGhe").val("");
+                        }
+                        else {
+                            alert("Ban chua chon ghe");
+                        }
+                    });
+            });
+    </script>
+}

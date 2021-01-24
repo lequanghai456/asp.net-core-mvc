@@ -1,0 +1,420 @@
+﻿@model DoanRapphim.Areas.Admin.Models.PhimModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+<input type="hidden" name="name" value="@Model.Id" id="idphim" />
+<div class="wrapper row3">
+    <main class="hoc container clear">
+        <div class="content">
+            <div id="gallery">
+                <div class="row">
+                    <div class="col-8 offset-2">
+                        <div class="row">
+                            <div class="col-12">
+                                <h1>Nội dung phim</h1>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row" id="phim">
+                            @*<div class="col-4">
+                                <img src="~/user/img/demo/gallery/01.png" alt="Alternate Text" />
+                            </div>
+                            <div class="col-8">
+                                <h2>Tựa phim</h2>
+                                <hr />
+                                <p>Thể loại</p>
+                                <p>Ngày chiếu</p>
+                                <p>Thơi lượng</p>
+                                <p>Mô tả</p>
+                            </div>*@
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="thanhpho">Thành phố</label>
+                                <select class="form-control" id="thanhpho" name="sellist1">
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <label for="quanhuyen">Quận huyện</label>
+                                <select class="form-control" id="quanhuyen" name="sellist1">
+                                    <option>Chọn Quận/Huyện</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <label for="rap">Rạp  chiếu phim</label>
+                                <select class="form-control" id="rap" name="sellist1">
+                                    <option>Chọn Rạp</option>
+                                </select>
+                            </div>
+                            <div id="ListNgayChieu">
+
+                            </div>
+                            @*<div class="col-4">
+                                <label for="ngaychieu">Chọn Ngày Chiếu</label>
+                                <select class="form-control" id="ngaychieu" name="sellist1">
+                                    <option>Chọn Ngày Chiếu</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <label for="giochieu">Chọn Giờ Chiếu</label>
+                                <select class="form-control" id="giochieu" name="sellist1">
+                                    <option>Chọn Giờ Chiếu</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <label for="phong">Chọn Phòng</label>
+                                <select class="form-control" id="phong" name="sellist1">
+                                    <option>Chọn Phòng</option>
+                                </select>
+                            </div>*@
+                        </div>
+                        @*<br />
+                        <div class="row">
+                            <div class="col-12" id="ghe">
+
+                            </div>
+                        </div>
+                        <br />*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>Danh Sách Suất Chiếu</h2><hr class="btmspace-80">
+        <ul class="nospace group overview" id="suatchieus">
+            
+
+        </ul>
+    </main>
+</div>
+
+@section Scripts {
+    @{}
+    <script>
+//import { error } from "jquery";
+
+
+        $(document).ready(function () {
+            var id = $('#idphim').val();
+            $.ajax({
+                method: "GET",
+                url: "../../../api/phimapi/" + id,
+                data: {}
+            })
+                .done(function (rs) {
+                    ds = JSON.parse(rs);
+                    ctphim = "";
+                    $.each(ds, function (value, item) {
+                        date = new Date(item.NgayChieu);
+                        ctphim += '<div class="col-4"><img src="/AnhPhim/' + item.AnhPhim + '" alt="Alternate Text" /></div><div class="col-8"><h2>' + item.TenPhim + '</h2><hr /><p>Thể loại: ' + item.TenLoai + '</p><p>Ngày chiếu: ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() + '</p><p>Thời lượng: ' + item.ThoiLuong + '</p><p>Mô tả: ' + item.MoTa + '</p></div>';
+                    })
+                    $("#phim").html(ctphim);
+                });
+        });
+
+        $(document).ready(function () {
+            var id = $('#idphim').val();
+            $.ajax({
+                method: "GET",
+                url: "../../../api/thanhphoapi/" + id,
+                data: {}
+            })
+                .done(function (rs) {
+                    dstp = JSON.parse(rs);
+                    dsthanhpho = " <option>Chọn Thành Phố</option>";
+                    $.each(dstp, function (value, item) {
+                        dsthanhpho += ' <option>' + item.ThanhPho + '</option>';
+                    })
+                    $("#thanhpho").html(dsthanhpho);
+                });
+        });
+
+        $("#thanhpho").change(function () {
+            var id = $('#idphim').val();
+            var idtp = $("#thanhpho").val();
+            if (idtp != 'Chọn Thành Phố') {
+                $.ajax({
+                    method: "GET",
+                    url: "../../../api/quanhuyenapi/" + id,
+                    data: {
+                        'tp': idtp,
+                    }
+                })
+                    .done(function (rs) {
+                        dsqh = JSON.parse(rs);
+                        dsquanhhuyen = "<option>Chọn Quận/Huyện</option>";
+                        $.each(dsqh, function (value, item) {
+                            dsquanhhuyen += ' <option>' + item.QuanHuyen + '</option>';
+                        })
+                        $("#quanhuyen").html(dsquanhhuyen);
+                    });
+            }
+            else {
+                dsquanhhuyen = '<option>Chọn Quận/Huyện</option>';
+                $("#quanhuyen").html(dsquanhhuyen);
+                dsrap = '<option value="' + 0 + '">Chọn Rạp</option>';
+                $("#rap").html(dsrap);
+            }
+        });
+
+        $("#quanhuyen").change(function () {
+            var id = $('#idphim').val();
+            var idtp = $("#thanhpho").val();
+            var idqh = $("#quanhuyen").val();
+            if (idqh != 'Chọn Quận/Huyện' && idtp != 'Chọn Thành Phố') {
+                $.ajax({
+                    method: "GET",
+                    url: "../../../api/rapchieuphimapi/getrap/" + id,
+                    data: {
+                        'tp': idtp,
+                        'qh': idqh,
+                    }
+                })
+                    .done(function (rs) {
+                        dsr = JSON.parse(rs);
+                        dsrap = '<option value="' + 0 + '">Chọn Rạp</option>';
+                        $.each(dsr, function (value, item) {
+                            dsrap += ' <option value="' + item.Id + '">' + item.TenRap + '</option>';
+                        })
+                        $("#rap").html(dsrap);
+                    });
+            }
+            else {
+                dsrap = '<option value="' + 0 + '">Chọn Rạp</option>';
+                $("#rap").html(dsrap);
+            }
+        });
+       
+        $("#rap").change(function () {
+            var id = $('#idphim').val();
+            var idtp = $("#thanhpho").val();
+            var idqh = $("#quanhuyen").val();
+            var idrap = $("#rap").val();
+            if (idqh != 'Chọn Quận/Huyện' && idtp != 'Chọn Thành Phố ' && idrap != 'Chọn Rạp') {
+                $.ajax({
+                    method: "GET",
+                    url: "../../api/SuatChieuAPI/" + idrap + "/" + id,
+                })
+                    .done(function (rs) {
+                        dsn = JSON.parse(rs);
+                        dsSuatChieu = '';
+                        $.each(dsn, function (value, item) {
+                            console.log(item);
+                            date = new Date(item.NgayChieu)
+                            dsSuatChieu += '<li class="one_quarter"><a href = "../DatVe/' + item.idPhong + '?idsc=' + item.id + '" ><div class="cineD2 brand"><em>' + item.tenphong + '</em></div><div class="clock">' + item.GioChieu + '<div> ~' + item.GioKetThuc + '</div></div></a></li >';
+                        })
+                        $("#suatchieus").html(dsSuatChieu);
+                    });
+            }
+            else {
+                dsrap = '<option value="">Chọn Ngày Chiếu</option>';
+                $("#ngaychieu").html(dsngay);
+            }
+        });
+         //
+        //$("#ngaychieu").change(function () {
+        //        var id = $('#idphim').val();
+        //        var idtp = $("#thanhpho").val();
+        //        var idqh = $("#quanhuyen").val();
+        //        var idrap = $("#rap").val();
+        //        var idnc = $("#ngaychieu").val();
+        //        if (idqh != 'Chọn Quận/Huyện' && idtp != 'Chọn Thành Phố ' && idrap != 'Chọn Rạp' && idnc != 'Chọn Ngày Chiếu') {
+        //            $.ajax({
+        //                method: "GET",
+        //                url: "../../../api/suatchieuapi/" + id,
+        //                data: {
+        //                    'tp': idtp,
+        //                    'qh': idqh,
+        //                    'rp': idrap,
+        //                    'nc': idnc,
+        //                }
+        //            })
+        //                .done(function (rs) {
+        //                    dsgc = JSON.parse(rs);
+        //                    dsgio = '<option value="">Chọn Giờ Chiếu</option>';
+        //                    $.each(dsgc, function (value, item) {
+        //                        date = new Date(item.GioChieu)
+        //                        dsgio += ' <option value="' + item.GioChieu + '">' + date.getHours() + ":";
+        //                        if (date.getMinutes() < 10)
+        //                            dsgio += '0' + date.getMinutes() + ':';
+        //                        else
+        //                            dsgio += date.getMinutes() + ':';
+        //                        if (date.getSeconds() < 10)
+        //                            dsgio += '0' + date.getSeconds();
+        //                        else
+        //                            dsgio += date.getSeconds();
+        //                        dsgio += '</option>';
+        //                    })
+        //                    $("#giochieu").html(dsgio);
+        //                });
+        //        }
+        //        else {
+        //            dsgio = '<option value="">Chọn Giờ Chiếu</option>';
+        //            $("#giochieu").html(dsgio);
+        //        }
+        //    });
+
+        //$("#giochieu").change(function () {
+        //        var id = $('#idphim').val();
+        //        var idtp = $("#thanhpho").val();
+        //        var idqh = $("#quanhuyen").val();
+        //        var idrap = $("#rap").val();
+        //        var idnc = $("#ngaychieu").val();
+        //        var idgc = $("#giochieu").val();
+        //        if (idqh != 'Chọn Quận/Huyện' && idtp != 'Chọn Thành Phố ' && idrap != 'Chọn Rạp' && idnc != 'Chọn Ngày Chiếu' && idgc != 'Chọn Giờ Chiếu') {
+        //            $.ajax({
+        //                method: "GET",
+        //                url: "../../../api/phongapi/" + id,
+        //                data: {
+        //                    'tp': idtp,
+        //                    'qh': idqh,
+        //                    'rp': idrap,
+        //                    'nc': idnc,
+        //                    'gc': idgc,
+        //                }
+        //            })
+        //                .done(function (rs) {
+        //                    dsp = JSON.parse(rs);
+        //                    dsphong = '<option value="">Chọn Phòng</option>';
+        //                    $.each(dsp, function (value, item) {
+        //                        dsphong += '<option value="' + item.Id + '">' + item.TenPhong + '</option>';
+        //                    })
+        //                    $("#phong").html(dsphong);
+        //                });
+        //        }
+        //        else {
+        //            dsphong = '<option value="">Chọn Phòng</option>';
+        //            $("#phong").html(dsphong);
+        //        }
+        //    });
+
+        ////var danhsachghe;
+        ////function laydanhsach(para) {       
+        ////    var id = $('#idphim').val();
+        ////    var idtp = $("#thanhpho").val();
+        ////    var idqh = $("#quanhuyen").val();
+        ////    var idrap = $("#rap").val();
+        ////    var idnc = $("#ngaychieu").val();
+        ////    var idgc = $("#giochieu").val();
+        ////    var idp = $("#phong").val();
+        ////    $.ajax({
+
+        ////        method: "GET",
+        ////        url: "../../../Api/VeAPI/DSGhe",
+        ////        data: {
+        ////            'id': id,
+        ////            'tp': idtp,
+        ////            'qh': idqh,
+        ////            'rp': idrap,
+        ////            'nc': idnc,
+        ////            'gc': idgc,
+        ////            'p': idp,
+        ////            'tg': 'A0',
+        ////        },
+        ////        success: function (rs) {
+        ////            danhsachghe = JSON.parse(rs);
+        ////        }
+        ////    });
+        ////    console.log(danhsachghe);
+        ////}
+
+        //$("#phong").change(function () {
+        //        var id = $('#idphim').val();
+        //        var idtp = $("#thanhpho").val();
+        //        var idqh = $("#quanhuyen").val();
+        //        var idrap = $("#rap").val();
+        //        var idnc = $("#ngaychieu").val();
+        //        var idgc = $("#giochieu").val();
+        //        var idp = $("#phong").val();
+
+        //    if (idqh != 'Chọn Quận/Huyện' && idtp != 'Chọn Thành Phố ' && idrap != 'Chọn Rạp' && idnc != 'Chọn Ngày Chiếu' && idgc != 'Chọn Giờ Chiếu' && idp != 'Chọn Phòng') {
+        //        $.ajax({
+        //                    method: "GET",
+        //                    url: "../../../Api/PhongAPI/"+idp,
+        //                })
+        //            .done(function (rs) {
+        //                dsghe = JSON.parse(rs);
+        //                        dsg = '<div class="row"><div class="col-12"><ul class="ghichu" ><li><div id="chuadat"></div><small>Chưa đặt</small></li><li><div id="datroi"></div><small>Đang được chọn</small></li><li><div class="seat occupied"></div><small>Đã được chọn</small></li></ul ></div ></div>';
+
+        //                        $.each(dsghe, function (value, item) {
+        //                            for (var x = 0; x < item.soluonghang; x++) {
+        //                                dsg += '<div class="row"><div class="col-12">';
+        //                                for (var i = 0; i < item.soluongcot; i++) {
+        //                                    var tenghe = String.fromCharCode(i + 65) + x;
+        //                                    console.log(item.TenGhe);
+        //                                    if (typeof (item.TenGhe) != 'undefined') {
+        //                                        if (tenghe == item.TenGhe)
+        //                                            dsg += '<div class="seat occupied " style="display:inline-block;">' + tenghe + '</div>';
+        //                                        else
+        //                                            dsg += '<div class="seat " style="display:inline-block;">' + tenghe + '</div>';
+        //                                    }
+        //                                    else
+        //                                        dsg += '<div class="seat" style="display:inline-block;">' + tenghe + '</div>';
+        //                                }
+        //                                dsg += '</div></div>';
+        //                            }
+
+        //                        });
+        //                        $("#ghe").html(dsg);
+                                
+        //                    });
+        //        }
+        //        else {
+        //            dsg = '';
+        //            $("#ghe").html(dsg);
+        //        }
+        //});
+        //const container1 = document.querySelector(".container");
+     
+        //var Danhsachghe = new Array();
+        //// ?Seat click event
+        //container1.addEventListener("click", (e) => {
+        //    if (e.target.classList.contains("seat") && !e.target.classList.contains("occupied")) {
+        //        e.target.classList.toggle("selected");
+        //        if ((Danhsachghe.length > 1) && Danhsachghe.indexOf(e.target.innerText) != -1) {
+        //            Danhsachghe.splice(Danhsachghe.indexOf(e.target.innerText), 1);
+        //        } else {
+        //            Danhsachghe.push(e.target.innerText);
+        //        }
+        //    }
+        //    console.log(Danhsachghe);
+
+        //});
+        //var ve = new Object();
+        //$("#datve").click(function () {
+
+        //    if (ve != null) {
+        //        $.ajax({
+        //            type: "GET",
+        //            url: '../../../api/veapi/addve',
+        //            data: {
+        //                'id': $('#idphim').val(),
+        //                'tp': $("#thanhpho").val(),
+        //                'qh': $("#quanhuyen").val(),
+        //                'rp': $("#rap").val(),
+        //                'nc': $("#ngaychieu").val(),
+        //                'gc': $("#giochieu").val(),
+        //                'p': $("#phong").val(),
+        //                'idnd': $("#tendangnhap").val(),
+        //                'lg': 1,
+        //                'ghe': "E2",
+        //                'nd': date.toISOString(),
+        //                'gv':20000,
+        //            }               
+        //        }).done(function (rs) {
+        //            alert("Thành Công");
+        //        })
+        //            .fail(function (rs) {
+        //                alert("Thất Bại");
+        //            });
+
+        //    }
+        //});
+
+     
+    </script>
+}
+
+
+

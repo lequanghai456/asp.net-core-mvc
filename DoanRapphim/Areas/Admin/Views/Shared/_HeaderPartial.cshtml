@@ -1,0 +1,30 @@
+﻿<header class="header">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-holder d-flex align-items-center justify-content-between">
+                <div class="navbar-header">
+                    <a id="toggle-btn" href="#" class="menu-btn"><i class="icon-bars"> </i></a><a href="index.html" class="navbar-brand">
+                        <div class="brand-text d-none d-md-inline-block">@*<span>Bootstrap </span>*@<strong class="text-primary">Dashboard</strong></div>
+                    </a>
+                </div>
+              
+                @{
+                    if (TempData.Peek("admin") != null)
+                    {
+
+                        <div class="dropdown">
+                           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                           @TempData.Peek("admin") </button>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="default" asp-action="Index" asp-controller="Home" style="color:black;">Trang Chủ</a></li>
+                                <li><a asp-area="default" asp-action="Index" asp-controller="Logout" style="color:black;">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                        TempData.Keep("admin");
+                    }
+
+                }
+            </div>
+        </div>
+    </nav>
+</header>

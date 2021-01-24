@@ -1,0 +1,40 @@
+﻿@model DoanRapphim.Areas.Admin.Models.PhongModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<h1>@(ViewContext.RouteData.Values["id"] !=null ?"Chỉnh Sửa loại sản phẩm":"Thêm sản phẩm mới")</h1>
+<form asp-action="@(ViewContext.RouteData.Values["id"] != null?"Edit":"Create")" asp-route-id="@(ViewContext.RouteData.Values["id"] != null?ViewContext.RouteData.Values["id"]:"")" class="row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @{
+        if (ViewContext.RouteData.Values["id"] != null)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+    }
+    <div class="form-group col-6">
+        <label asp-for="IdRapChieu" class="control-label">Tên Rạp</label>
+        <select asp-for="IdRapChieu" class="form-control" asp-items="@(new SelectList(ViewBag.ListRapChieu,"Id","TenRapChieu"))"></select>
+    </div>
+    <div class="form-group col-6">
+        <label asp-for="TenPhong" class="control-label"></label>
+        <input asp-for="TenPhong" class="form-control" />
+        <span asp-validation-for="TenPhong" class="text-danger"></span>
+    </div>
+    <div class="form-group col-6">
+        <label asp-for="SoLuongHang" class="control-label"></label>
+        <input asp-for="SoLuongHang" class="form-control" />
+        <span asp-validation-for="SoLuongHang" class="text-danger"></span>
+    </div>
+    <div class="form-group col-6">
+        <label asp-for="SoLuongCot" class="control-label"></label>
+        <input asp-for="SoLuongCot" class="form-control" />
+        <span asp-validation-for="SoLuongCot" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="@(ViewContext.RouteData.Values["id"] != null?"Cập nhật":"Thêm mới")" class="btn btn-primary" />
+    </div>
+</form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

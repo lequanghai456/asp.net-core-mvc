@@ -1,0 +1,41 @@
+﻿@model DoanRapphim.Areas.Admin.Models.RapChieuPhimModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = null;
+}
+
+<dl class="row">
+    <dt class="col-sm-4">
+        Tên rạp chiếu
+    </dt>
+    <dd class="col-sm-8">
+        @Html.DisplayFor(model => model.TenRapChieu)
+    </dd>
+    <hr />
+    <dt class="col-sm-4">
+        Tổng số phòng
+    </dt>
+    <dd class="col-sm-8">
+        @Html.DisplayFor(model => model.TongSoPhong)
+    </dd>
+    <dt class="col-sm-4">
+        Thành phố
+    </dt>
+    <hr />
+    <dd class="col-sm-8">
+        @Html.DisplayFor(model => model.ThanhPho)
+    </dd>
+    <dt class="col-sm-4">
+        Quận huyện
+    </dt>
+    <dd class="col-sm-8">
+        @Html.DisplayFor(model => model.QuanHuyen)
+    </dd>
+    <hr />
+</dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>

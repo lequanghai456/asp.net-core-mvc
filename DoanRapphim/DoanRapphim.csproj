@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\API\Data\**" />
+    <Compile Remove="Areas\API\m\**" />
+    <Compile Remove="Areas\API\Views\**" />
+    <Content Remove="Areas\API\Data\**" />
+    <Content Remove="Areas\API\m\**" />
+    <Content Remove="Areas\API\Views\**" />
+    <EmbeddedResource Remove="Areas\API\Data\**" />
+    <EmbeddedResource Remove="Areas\API\m\**" />
+    <EmbeddedResource Remove="Areas\API\Views\**" />
+    <None Remove="Areas\API\Data\**" />
+    <None Remove="Areas\API\m\**" />
+    <None Remove="Areas\API\Views\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Admin\Views\LichChieu\Details.cshtml" />
+    <None Include="Areas\Admin\Views\LichChieu\Index.cshtml" />
+    <None Include="Areas\Admin\Views\LoaiSuatChieu\Details.cshtml" />
+    <None Include="Areas\Admin\Views\LoaiSuatChieu\Index.cshtml" />
+    <None Include="Views\DangKy\Index.cshtml" />
+    <None Include="Views\DanhSachPhim\Details.cshtml" />
+    <None Include="Views\DanhSachPhim\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+</Project>

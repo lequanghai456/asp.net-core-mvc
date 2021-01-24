@@ -1,0 +1,50 @@
+﻿@model DoanRapphim.Areas.Admin.Models.LoaiSuatChieuModel
+
+@{
+    ViewData["Title"] = "Quản lý loại suất chiếu";
+}
+
+<h1>Index</h1>
+
+<div class="row">
+    @await Html.PartialAsync("Create")
+    <div class="col-md-8">
+        <form class="row" asp-action="Index" method="get">
+            <input name="Key" class="form-control col-4" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Tên loại suất chiếu
+                    </th>
+                    <th>
+                        Giá
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (LoaiSuatChieuModel item in ViewBag.List)
+                {
+                    <tr id="@item.Id">
+                        <td>
+                            @item.TenSuatChieu
+                        </td>
+                        <td>
+                            @item.GiaSuatChieu
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-action="Index" asp-route-id="@item.Id">Edit</a>|
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </div>

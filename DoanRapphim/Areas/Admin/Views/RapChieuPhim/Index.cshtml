@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DoanRapphim.Areas.Admin.Models.RapChieuPhimModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Rạp chiếu phim</h1>
+<p>
+    <button onclick="showInPopup('@Url.Action("Create", "RapChieuPhim", null, Context.Request.Scheme)','Tạo rạp chiếu phim')" class="btn btn-success text-white" data-toggle="modal" data-target="#myModal">Tạo mới rạp chiếu phim</button>
+</p>
+<hr/>
+<h1>Tìm kiếm</h1>
+<form asp-action="Index" asp-controller="RapChieuPhim" asp-area="Admin">
+    <div class="form-group">
+        <label for="search">Tìm rạp chiếu theo tên</label>
+        <input type="text" class="form-control" id="seach" name="searchString" />
+        <input type="submit" class="btn btn-info" value="Tìm" />
+    </div>
+</form>
+<hr/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên Rạp Chiếu
+            </th>
+            <th>
+                Tổng số phòng
+            </th>
+            <th>
+                Thành phố
+            </th>
+            <th>
+                Quận/Huyện
+            </th>
+        </tr>
+    </thead>
+    <tbody id="dsrap">
+        @foreach (RapChieuPhimModel item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenRapChieu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TongSoPhong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThanhPho)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuanHuyen)
+                </td>
+                <td>
+                    <button onclick="showInPopup('@Url.Action("Edit","RapChieuPhim",new {id=item.Id},Context.Request.Scheme)','Cập nhật rạp chiếu phim')" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i> Edit</button> |
+                    <button onclick="showInPopup('@Url.Action("Delete","RapChieuPhim",new {id=item.Id},Context.Request.Scheme)','Xoá rạp chiếu phim')" class="btn btn-danger"><i class="fas fa-pencil-alt"></i> Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+    </script>
+}

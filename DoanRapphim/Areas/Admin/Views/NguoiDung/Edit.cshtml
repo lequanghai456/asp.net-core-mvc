@@ -1,0 +1,46 @@
+﻿@model DoanRapphim.Areas.Admin.Models.NguoiDungModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>NguoiDungModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="TaiKhoan" class="form-control" />
+            <input type="hidden" asp-for="MatKhau" class="form-control" />
+            <div class="form-group">
+                <label asp-for="NguoiDung" class="control-label"></label>
+                <input asp-for="NguoiDung" class="form-control" />
+                <span asp-validation-for="NguoiDung" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NgaySinh" class="control-label"></label>
+                <input asp-for="NgaySinh" class="form-control" />
+                <span asp-validation-for="NgaySinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayDangKy" class="control-label"></label>
+                <input asp-for="NgayDangKy" class="form-control" />
+                <span asp-validation-for="NgayDangKy" class="text-danger"></span>
+            </div>
+            <input type="hidden" class="form-check-input" asp-for="TinhTrang" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

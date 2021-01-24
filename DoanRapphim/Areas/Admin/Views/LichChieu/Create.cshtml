@@ -1,0 +1,26 @@
+﻿@model DoanRapphim.Areas.Admin.Models.LichChieuModel
+<div class="col-md-4">
+    <h1>@(ViewContext.RouteData.Values["id"] == null ? "Create" : "Edit")</h1>
+    <form asp-action=@(ViewContext.RouteData.Values["id"] == null ? "Create" : "Edit") method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @{ if (ViewContext.RouteData.Values["id"] != null)
+            { 
+                <input type="hidden" asp-for="Id" />
+            }
+        }
+        <div class="form-group">
+            <label asp-for="NgayChieu" class="control-label"></label>
+            <input asp-for="NgayChieu" class="form-control" />
+            <span asp-validation-for="NgayChieu" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdPhong" class="control-label"></label>
+            <select asp-for="IdPhong" class="form-control" asp-items="ViewBag.IdPhong"></select>
+            <span asp-validation-for="IdPhong" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+

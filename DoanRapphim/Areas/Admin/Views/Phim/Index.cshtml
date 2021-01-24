@@ -1,0 +1,72 @@
+﻿@model DoanRapphim.Areas.Admin.Models.PhimModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<form class="row" asp-action="Index" method="get">
+    <input name="Search" class="form-control col-4" type="search"/>
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+</form>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên phim
+            </th>
+            <th>
+                Poster
+            </th>
+            <th>
+                Tổng thời lượng
+            </th>
+            <th>
+                Mô tả
+            </th>
+            <th>
+                Loại phim
+            </th>
+            <th>
+                Tình trạng
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PhimModel item in ViewBag.ListDuLieu)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenPhim)
+            </td>
+            <td>
+                <img src="~/AnhPhim/@Html.DisplayFor(modelItem => item.AnhPhim)" alt="Alternate Text" style="width:50px; height:70px;" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.loaiPhim.TenLoai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TinhTrang)
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

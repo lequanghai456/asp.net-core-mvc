@@ -1,0 +1,133 @@
+﻿@model IEnumerable<DoanRapphim.Areas.Admin.Models.NguoiDungModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<hr />
+<div class="container-fluid mt-3">
+    <form asp-action="Index" method="get">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="s_name" class="col-form-label">Nhập tên người dùng</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="s_name" name="s_name" class="form-control" @(Context.Request.Query["s_name"] != "" ? ("value = " + Context.Request.Query["s_name"]) : null)>
+            </div>
+            @*<div class="container-fluid mt-3">
+                    <h4>Có @(((ICollection<PhongModel>)ViewBag.ListPhong).Count()
+                            )</h4>
+
+                </div>*@
+            <div class="col-auto">
+                <select class="form-select" name="s_stt">
+                    <option value="" selected> Tất cả trạng thái</option>
+                    <option value="false">Khóa</option>
+                    <option value="true">Kích Hoạt</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-warning" type="submit">Tìm</button>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NguoiDung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaiKhoan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgaySinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayDangKy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TinhTrang)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (NguoiDungModel item in ViewBag.ListNguoidung)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NguoiDung)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaiKhoan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgaySinh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayDangKy)
+                </td>
+                <td>
+                    <a name="trangthai" href="#" class="btn-active" data-toggle="modal" data-target="#exampleModal" data-id="@item.Id">@(item.TinhTrang?"Kích Hoạt":"Khóa")</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $('.btn-active').on('click', function (e) {
+            e.preventDefault();
+            var btn = $(this);
+
+            var idnguoidung = (btn.attr('data-id'));
+
+            $.ajax({
+                method: "GET",
+                url: "../API/NguoiDungAPI/Thaydoitrangthai",
+                data: {
+                    'id': idnguoidung
+                }
+            })
+                .done(function (msg) {
+                    var itam = JSON.parse(msg);
+                    console.log(itam);
+                    if (itam == true) {
+                        btn.text("Kích Hoạt");
+                        $('.modal-body').text("Tài khoản đã được kích hoạt");
+                    }
+                    else {
+                        btn.text("Khóa");
+                        $('.modal-body').text("Tài khoản đã bị vô hiệu hóa");
+                    }
+                });
+        });
+    </script>
+}

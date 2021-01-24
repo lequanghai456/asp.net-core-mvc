@@ -1,0 +1,134 @@
+﻿@model DoanRapphim.Areas.Admin.Models.PhongModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Phòng</h1>
+
+<partial name="Create" />
+<hr />
+<div class="container-fluid mt-3">
+    <form asp-action="Index" method="get">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="s_name" class="col-form-label">Nhập từ khóa</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="s_name" name="s_name" class="form-control" @(Context.Request.Query["s_name"] != "" ? ("value = " + Context.Request.Query["s_name"]) : null)>
+            </div>
+            @*<div class="container-fluid mt-3">
+                    <h4>Có @(((ICollection<PhongModel>)ViewBag.ListPhong).Count()
+                            )</h4>
+
+                </div>*@
+            <div class="col-auto">
+                <select class="form-select" name="s_stt">
+                    <option value="" selected> Tất cả trạng thái</option>
+                    <option value="false">Chưa Xóa</option>
+                    <option value="true">Đã Xóa</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-warning" type="submit">Tìm</button>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RapChieuPhim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenPhong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuongHang)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuongCot)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PhongModel item in ViewBag.ListPhong)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelitem => item.RapChieuPhim.TenRapChieu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.TenPhong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.SoLuongHang)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.SoLuongCot)
+                </td>
+
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.Id">Chỉnh Sửa</a> |
+                    <a name="trangthai" href="#" class="btn-active" data-toggle="modal" data-target="#exampleModal" data-id="@item.Id">@(item.Daxoa?"Khôi phục":"Xóa")</a>
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $('.btn-active').on('click', function (e) {
+            e.preventDefault();
+            var btn = $(this);
+
+            var idphong = (btn.attr('data-id'));
+
+            $.ajax({
+                method: "GET",
+                url: "../API/PhongAPI/Thaydoitrangthai",
+                data: {
+                    'id': idphong
+                }
+            })
+                .done(function (msg) {
+                    var itam = JSON.parse(msg);
+                    console.log(itam);
+                    if (itam == false) {
+                        btn.text("Xóa");
+                        $('.modal-body').text("Phòng đã được khôi phục");
+
+                    }
+                    else {
+                        btn.text("khôi phục");
+                        $('.modal-body').text("Phòng đã bị xóa");
+                    }
+                });
+        });
+    </script>
+}

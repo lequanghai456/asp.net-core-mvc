@@ -1,0 +1,38 @@
+﻿@model DoanRapphim.Areas.Admin.Models.RapChieuPhimModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TenRapChieu" class="control-label">Tên rạp chiếu</label>
+                <input asp-for="TenRapChieu" class="form-control" />
+                <span asp-validation-for="TenRapChieu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TongSoPhong" class="control-label">Tổng số phòng</label>
+                <input asp-for="TongSoPhong" class="form-control" />
+                <span asp-validation-for="TongSoPhong" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThanhPho" class="control-label">Thành phố</label>
+                <input asp-for="ThanhPho" class="form-control" />
+                <span asp-validation-for="ThanhPho" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuanHuyen" class="control-label">Quận/Huyện</label>
+                <input asp-for="QuanHuyen" class="form-control" />
+                <span asp-validation-for="QuanHuyen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+

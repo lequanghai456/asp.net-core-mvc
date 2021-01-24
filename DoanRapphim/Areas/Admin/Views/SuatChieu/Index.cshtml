@@ -1,0 +1,73 @@
+﻿@model DoanRapphim.Areas.Admin.Models.SuatChieuModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Suất chiếu</h1>
+<p>
+    <button onclick="showInPopup('@Url.Action("Create", "SuatChieu", null, Context.Request.Scheme)','Suất Chiếu')" class="btn btn-success text-white" data-toggle="modal" data-target="#myModal">Tạo mới suất chiếu</button>
+</p>
+<hr />
+<h1>Tìm kiếm</h1>
+<form asp-action="Index" asp-controller="SuatChieu" asp-area="Admin">
+    <div class="form-group">
+        <label asp-for="IdPhim" class="control-label">Tìm suất chiếu theo phim</label>
+        <select name="s_phim" asp-for="IdPhim" class="form-control" asp-items="@(new SelectList(ViewBag.ListPhim,"Id","TenPhim"))">
+            <option value="0">Chọn Phim</option>
+        </select>
+    </div>
+    <input type="submit" class="btn btn-info" value="Tìm" />
+</form>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Loại suất chiếu
+            </th>
+            <th>
+                Phim
+            </th>
+            <th>
+                Ngày chiếu
+            </th>
+            <th>
+                Giờ chiếu
+            </th>
+            @*<th>
+                    Tình trạng
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="dsra">
+        @foreach (SuatChieuModel item in ViewBag.ListSuatChieu)
+        {
+            <tr>
+                <td>
+                    @item.SuatChieu.TenSuatChieu
+                </td>
+                <td>
+                    @item.Phim.TenPhim
+                </td>
+                <td>
+                    @item.LichChieu.NgayChieu.ToShortDateString()
+                </td>
+                <td>
+                    @item.GioChieu.ToShortTimeString()
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.TinhTrang)
+                    </td>*@
+                <td>
+                    <button onclick="showInPopup('@Url.Action("Edit","RapChieuPhim",new {id=item.Id},Context.Request.Scheme)','Cập nhật rạp chiếu phim')" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i> Edit</button> |
+                    <button onclick="showInPopup('@Url.Action("Delete","RapChieuPhim",new {id=item.Id},Context.Request.Scheme)','Xoá rạp chiếu phim')" class="btn btn-danger"><i class="fas fa-pencil-alt"></i> Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

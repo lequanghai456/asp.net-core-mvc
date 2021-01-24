@@ -1,0 +1,74 @@
+﻿@model DoanRapphim.Areas.Admin.Models.PhimModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>PhimModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="TenPhim" class="control-label">Tên phim</label>
+                <input asp-for="TenPhim" class="form-control" />
+                <span asp-validation-for="TenPhim" class="text-danger"></span>
+            </div>
+            <div class="custom-file">
+                <label asp-for="AnhPhim" class="custom-file-label">Ảnh phim</label>
+                <input asp-for="AnhPhim" class="custom-file-input" type="file" name="ful" id="ful" />
+            </div>
+            <div class="form-group">
+                <img src="~/AnhPhim/@Model.AnhPhim" alt="Alternate Text" class="img-thumbnail" id="img" />
+                <input type="hidden" asp-for="AnhPhim" />
+                <span asp-validation-for="AnhPhim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThoiLuong" class="control-label">Thời lượng</label>
+                <input asp-for="ThoiLuong" class="form-control" />
+                <span asp-validation-for="ThoiLuong" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoTa" class="control-label">Mô tả</label>
+                <input asp-for="MoTa" class="form-control" />
+                <span asp-validation-for="MoTa" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TinhTrang" /> @Html.DisplayNameFor(model => model.TinhTrang)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdLoaiPhim" class="control-label">Loại phim</label>
+                <select asp-for="IdLoaiPhim" class="form-control" asp-items="ViewBag.IdLoaiPhim"></select>
+                <span asp-validation-for="IdLoaiPhim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+    function readURL(input, IMG) {
+        if (input.files && input.files[0]) {
+            var read = new FileReader();
+            read.onload = function (e) { $(IMG).attr("src", e.target.result) }
+            read.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#ful").change(function () { readURL(this, "#img") })
+    </script>
+}

@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="wrapper row3">
+    <main class="hoc container clear">
+        <h2>
+            Phim Đang chiếu
+        </h2>
+        <hr class="btmspace-80">
+        <ul class="nospace group overview" id="PhimDangChieu">
+            
+        </ul>
+
+        <br />
+        <br />
+        <br />
+        <h2>
+            Phim sắp chiếu
+        </h2>
+            <hr class="btmspace-80">
+            <ul class="nospace group overview" id="PhimSapChieu">
+            
+            </ul>
+    </main>
+</div>
+
+
+@section Scripts {
+    @{}
+<script>
+    $(document).ready(function () {
+        PhimDangChieu();
+        PhimSapChieu();
+    });
+    function PhimDangChieu() {
+            $.ajax({
+                method: "GET",
+                url: "../api/phimapi/PhimDangChieu",
+            })
+                .done(function (rs) {
+                    ds = JSON.parse(rs);
+                    console.log(ds);
+                    ctphim = "";
+                    $.each(ds, function (value, item) {
+                        ctphim += '<li class="one_quarter"><a href="@{@Url.Action("Details", "DanhSachPhim")}/' + item.Id + '"><img src="/AnhPhim/'+ item.AnhPhim + '"/></a></li>';
+                    })
+                    $("#PhimDangChieu").html(ctphim);
+                });
+    };
+    function PhimSapChieu() {
+            $.ajax({
+                method: "GET",
+                url: "../api/phimapi/PhimSapChieu"
+            })
+                .done(function (rs) {
+                    ds = JSON.parse(rs);
+                    console.log(ds);
+                    ctphim = "";
+                    $.each(ds, function (value, item) {
+                        ctphim += '<li class="one_quarter"><a href="@{@Url.Action("Details", "DanhSachPhim")}/' + item.Id + '"><img src="/AnhPhim/' + item.AnhPhim + '"/></a></li>';
+                    })
+                    $("#PhimSapChieu").html(ctphim);
+                });
+        }
+</script>
+}

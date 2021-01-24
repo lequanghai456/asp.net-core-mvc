@@ -1,0 +1,44 @@
+﻿@model DoanRapphim.Areas.Admin.Models.SuatChieuModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="IdLoaiSuatChieu" class="control-label">Loại suất chiếu</label>
+                <select asp-for="IdLoaiSuatChieu" class="form-control" asp-items="@(new SelectList(ViewBag.ListLoaiSuatChieu,"Id","TenSuatChieu"))"></select>
+                <span asp-validation-for="IdLoaiSuatChieu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPhim" class="control-label">Phim</label>
+                <select asp-for="IdPhim" class="form-control" asp-items="@(new SelectList(ViewBag.ListPhim,"Id","TenPhim"))"></select>
+                <span asp-validation-for="IdPhim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdLichChieu" class="control-label">Ngày chiếu</label>
+                <select asp-for="IdLichChieu" class="form-control" asp-items="@(new SelectList(ViewBag.ListLichChieu,"Id","NgayChieu"))"></select>
+                <span asp-validation-for="IdLichChieu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GioChieu" class="control-label">Giờ chiếu</label>
+                <input asp-for="GioChieu" class="form-control" />
+                <span asp-validation-for="GioChieu" class="text-danger"></span>
+            </div>
+            @*<div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TinhTrang" /> @Html.DisplayNameFor(model => model.TinhTrang)
+                </label>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+

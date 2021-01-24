@@ -1,0 +1,49 @@
+﻿@model DoanRapphim.Areas.Admin.Models.SuatChieuModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>SuatChieuModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Loại suất chiếu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SuatChieu.TenSuatChieu)
+        </dd>
+        <dt class="col-sm-2">
+            Phim
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Phim.TenPhim)
+        </dd>
+        <dt class="col-sm-2">
+            Ngày chiếu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LichChieu.NgayChieu)
+        </dd>
+        <dt class="col-sm-2">
+            Ngày chiếu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GioChieu)
+        </dd>
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.TinhTrang)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.TinhTrang)
+            </dd>*@
+            </dt>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

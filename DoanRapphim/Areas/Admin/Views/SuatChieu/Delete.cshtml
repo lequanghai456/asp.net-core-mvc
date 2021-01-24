@@ -1,0 +1,52 @@
+﻿@model DoanRapphim.Areas.Admin.Models.SuatChieuModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = null;
+}
+
+
+    <h4>SuatChieuModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            Loại suất chiếu
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.SuatChieu.TenSuatChieu)
+        </dd>
+        <hr />
+        <dt class="col-sm-4">
+            Phim
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Phim.TenPhim)
+        </dd>
+        <hr />
+        <dt class="col-sm-4">
+            Ngày chiếu
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.LichChieu.NgayChieu)
+        </dd>
+        <hr />
+        <dt class="col-sm-4">
+            Giờ chiếu
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GioChieu)
+        </dd>
+        @*<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TinhTrang)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TinhTrang)
+        </dd>*@
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+

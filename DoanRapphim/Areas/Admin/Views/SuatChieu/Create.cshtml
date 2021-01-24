@@ -1,0 +1,37 @@
+﻿@model DoanRapphim.Areas.Admin.Models.SuatChieuModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdLoaiSuatChieu" class="control-label">Loại suất chiếu</label>
+                <select asp-for="IdLoaiSuatChieu" class ="form-control" asp-items="@(new SelectList(ViewBag.ListLoaiSuatChieu,"Id","TenSuatChieu"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPhim" class="control-label">Phim</label>
+                <select asp-for="IdPhim" class ="form-control" asp-items="@(new SelectList(ViewBag.ListPhim,"Id","TenPhim"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdLichChieu" class="control-label">Ngày chiếu</label>
+                <select asp-for="IdLichChieu" class ="form-control" asp-items="@(new SelectList(ViewBag.ListLichChieu,"Id","NgayChieu"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GioChieu" class="control-label"></label>
+                <input asp-for="GioChieu" class="form-control" />
+                <span asp-validation-for="GioChieu" class="text-danger"></span>
+            </div>
+            @*<div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TinhTrang" /> @Html.DisplayNameFor(model => model.TinhTrang)
+                </label>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+

@@ -1,0 +1,93 @@
+﻿@model DoanRapphim.Areas.Admin.Models.NguoiDungModel
+@{
+    
+}
+<div class="wrapper row3">
+    <main class="hoc container clear" style="background-color: lightblue;">
+        <ul class="nospace group overview">
+            <li class="one_quarter">
+                <article>
+                    <input type="text" style="visibility:hidden;">
+                </article>
+            </li>
+            <li class="two_quarter">
+                <div class="wrapper fadeInDown">
+                    <div id="formContent">
+                        <!-- Tabs Titles -->
+                        <h2 class="inactive underlineHover"> <a href="../Login">Đăng nhập </a></h2>
+                        <h2 class="active">Đăng kí </h2>
+
+                        <!-- Icon -->
+                        <div class="fadeIn first">
+                            <img class="img-thumbnail" style="width:100px;height:auto;" src="~/user/img/demo/avatar1.png" id="icon" alt="User Icon" />
+                        </div>
+
+                        <!-- Login Form -->
+                        <form class="form" method="post" asp-action="Create" asp-controller="DangKy">
+                            <input type="text" asp-for="NguoiDung" id="NguoiDung" class="fadeIn second" name="nguoidung" placeholder="Nhập tên người dùng" required>
+
+                            <input type="text" asp-for="TaiKhoan" id="TaiKhoan" class="fadeIn second" name="taikhoan" placeholder="Nhập tài khoản" required>
+                            <span asp-validation-for="TaiKhoan" class="text-danger" id="ThongBaoTaiKhoang1"></span>
+                            <span asp-validation-for="TaiKhoan" class="text-success" id="ThongBaoTaiKhoang2"></span>
+
+                            <input type="password" asp-for="MatKhau" id="password" class="fadeIn third" name="matkhau" placeholder="Nhập mật khẩu" required onclick="LoadData()">
+
+                            <input type="password" id="password1" class="fadeIn third" placeholder="Nhập lại mật khẩu" required style="background-color: #f6f6f6; border: none; color: #0d0d0d; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 5px; width: 85%; border: 2px solid #f6f6f6; -webkit-transition: all 0.5s ease-in-out; -moz-transition: all 0.5s ease-in-out; -ms-transition: all 0.5s ease-in-out; -o-transition: all 0.5s ease-in-out; transition: all 0.5s ease-in-out; -webkit-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px; border: 1px solid gray;">
+                            <span asp-validation-for="MatKhau" class="text-danger" id="ThongBaoMatKhau1"></span>
+                            <span asp-validation-for="MatKhau" class="text-success" id="ThongBaoMatKhau2"></span>
+
+                            <input asp-for="NgaySinh" id="ngaysinh" class="form-control full-date" name="matkhau" placeholder="Ngày sinh" required>
+                            <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                            <input type="submit" class="fadeIn fourth" value="Đăng ký">
+                        </form>
+
+                    </div>
+                </div>
+            </li>
+            <li class="one_quarter">
+
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </main>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function LoadData() {
+            var TaiKhoan = $("#TaiKhoan").val();
+            $.ajax({
+                url: "../Api/DangKyAPI/KiemTra",
+                method: "GET",
+                data: { "Ten": TaiKhoan },
+            }).done(function (response) {
+                if (response == true) {
+                    $('#ThongBaoTaiKhoang1').html("")
+                    $('#ThongBaoTaiKhoang2').html("<div>Tài khoản hợp lệ</div>")
+                }
+                if (response == false) {
+                    $('#ThongBaoTaiKhoang1').html("<div>Tài khoản không hợp lệ</div>")
+                    $('#ThongBaoTaiKhoang2').html("")
+                }
+
+            }).fail(function (response) {
+                debugger;
+            })
+        }
+        
+        $("#password1").focusout(function Kiemtra() {
+            var MK = $("#password").val();
+            var MK1 = $("#password1").val();
+            if (MK != MK1) {
+                $('#ThongBaoMatKhau1').html("<div>Mật khẩu không trùng khớp</div>")
+                $('#ThongBaoMatKhau2').html("")
+                $('#password').focus();
+            }
+            else {
+                $('#ThongBaoMatKhau1').html("")
+                $('#ThongBaoMatKhau2').html("<div>Mật khẩu trùng khớp</div>")
+            }
+        })
+    </script>
+}

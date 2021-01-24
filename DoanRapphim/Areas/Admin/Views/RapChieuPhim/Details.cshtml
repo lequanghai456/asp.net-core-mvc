@@ -1,0 +1,42 @@
+﻿@model DoanRapphim.Areas.Admin.Models.RapChieuPhimModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>RapChieuPhimModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Tên rạp chiếu
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenRapChieu)
+        </dd>
+        <dt class = "col-sm-2">
+            Tổng số phòng
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TongSoPhong)
+        </dd>
+        <dt class = "col-sm-2">
+            Thành phố
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThanhPho)
+        </dd>
+        <dt class = "col-sm-2">
+           Quận huyện
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.QuanHuyen)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

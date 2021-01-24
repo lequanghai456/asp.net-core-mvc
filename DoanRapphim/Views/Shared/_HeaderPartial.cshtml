@@ -1,0 +1,42 @@
+﻿<header id="header" class="hoc clear">
+    <!-- ################################################################################################ -->
+    <div id="logo" class="fl_left">
+        <h1><a href="../../">My Theatre</a></h1>
+    </div>
+    <nav id="mainav" class="fl_right">
+        <ul class="clear">
+            <li class="active"><a asp-controller="home" asp-action="index">Trang chủ</a></li>
+            <li><a asp-controller="danhsachphim" asp-action="index">Phim</a></li>
+            @{
+                if (TempData.Peek("user") != null)
+                {
+                    <li>
+                        <a class="drop" href="#">@TempData.Peek("user")</a>
+                        <ul>
+                            <li><a asp-action="Index" asp-controller="Logout">Đăng xuất</a></li>
+                            <input type="hidden" name="name" id="tendangnhap" value="@TempData.Peek("id")" />
+                        </ul>
+                    </li>
+                }
+                if (TempData.Peek("admin") != null)
+                {
+                    <li>
+                        <a class="drop" href="#">@TempData.Peek("admin")</a>
+                        <ul>
+                            <li><a asp-action="Index" asp-controller="Home" asp-area="Admin">Quản Lý</a></li>
+                            <li><a asp-action="Index" asp-controller="Logout">Đăng xuất</a></li>
+                            <input type="hidden" name="name" id="tendangnhap" value="@TempData.Peek("id")" />
+                        </ul>
+                    </li>
+                }
+                if (TempData.Peek("admin") == null && (TempData.Peek("user") == null))
+                {
+                    <li><a asp-action="Index" asp-controller="Login">Đăng nhập</a></li>
+                }
+                TempData.Keep("user");
+                TempData.Keep("admin");
+            }
+        </ul>
+    </nav>
+    <!-- ################################################################################################ -->
+</header>
